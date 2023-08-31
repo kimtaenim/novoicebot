@@ -32,8 +32,8 @@ def STT(audio):
     return transcript["text"]
 
 def ask_gpt(prompt, model) :
-    prompt_dramatized = "dramatize " + prompt + ", and traslate them into Korean."
-    response = openai.ChatCompletion.create(model=model, messages=prompt_dramatized)
+    prompt["content"] = "dramatize " + prompt["content"] + ", and traslate them into Korean." ## 수정부분
+    response = openai.ChatCompletion.create(model=model, messages=prompt)
     system_message = response["choices"][0]["message"]
     return system_message["content"]
 
@@ -61,19 +61,19 @@ def TTS(response) :
 def main():
     # 기본 설정
     st.set_page_config(
-        page_title="구글 내용을 요약해보아요",
+        page_title="알기 쉬운 이야기로 만들어보아요",
         layout="wide")
     
     flag_start = False
 
     # 제목
-    st.header("구글링 해주는 비서")
+    st.header("드라마 만들어주는 비서")
 
     # 구분선
     st.markdown("---")
 
     # 기본 설명
-    with st.expander("구글링 비서에 대하여", expanded=True):
+    with st.expander("드라마 비서에 대하여", expanded=True):
         st.write(
         """
         - novoicebot.py 프로그램을 만들어봤어요.
