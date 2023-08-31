@@ -32,7 +32,6 @@ def STT(audio):
     return transcript["text"]
 
 def ask_gpt(prompt, model) :
-    prompt["content"] = "dramatize " + prompt["content"] + ", and traslate them into Korean." ## 수정부분
     response = openai.ChatCompletion.create(model=model, messages=prompt)
     system_message = response["choices"][0]["message"]
     return system_message["content"]
@@ -126,6 +125,7 @@ def main():
             st.audio(audio.tobytes())
             # 음원 파일에서 텍스트 추출
             question = STT(audio)
+            question = "dramatize " + question + ", and traslate them into Korean." ## 한줄추가한 부분
 
             # 채팅을 시각화하기 위해 질문 내용 저장
             now = datetime.now().strftime("%H:%M")
