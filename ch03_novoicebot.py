@@ -32,8 +32,8 @@ def STT(audio):
     return transcript["text"]
 
 def ask_gpt(prompt, model) :
-    prompt = "on '" + prompt + "', google the top seven sites, show me the URLs, summarize them, and traslate them into Korean."
-    response = openai.ChatCompletion.create(model=model, messages=prompt)
+    prompt_dramatized = "dramatize " + prompt + ", and traslate them into Korean."
+    response = openai.ChatCompletion.create(model=model, messages=prompt_dramatized)
     system_message = response["choices"][0]["message"]
     return system_message["content"]
 
@@ -79,7 +79,7 @@ def main():
         - novoicebot.py 프로그램을 만들어봤어요.
         - ch03_voicebot.py 프로그램을 변주했습니다.
         - 코딩용 컴퓨터 조립할 때 마이크를 빼먹었거든요.
-        - 답변은 OpenAI의 GPT 모델을 활용합니다.
+        - 어차피 폰으로 돌리면 상관없겠지만.
         """
         )
 
