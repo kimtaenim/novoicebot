@@ -1,6 +1,6 @@
 import streamlit as st
 # audiorecorder 패키지 
-from audiorecorder import audiorecorder
+# from audiorecorder import audiorecorder
 # OpenAI 패키지 
 import openai
 # 파일 삭제를 위한 패키지
@@ -8,29 +8,29 @@ import os
 # 시간 정보를 위한 패키지 추가
 from datetime import datetime
 # 오디오 array를 비교하기 위한 numpy 패키지
-import numpy as np
+# import numpy as np
 # TTS 패키지 추가
 from gtts import gTTS
 # 음원 파일을 재생하기 위한 패키지 추가
 import base64
 
 ### 기능 구현 함수 ###
-def STT(audio):
+#def STT(audio):
     # 파일 저장
-    filename = "input.mp3"
-    wav_file = open(filename, "wb")
-    wav_file.write(audio.tobytes())
-    wav_file.close()
+#    filename = "input.mp3"
+#    wav_file = open(filename, "wb")
+#    wav_file.write(audio.tobytes())
+#    wav_file.close()
 
     # 음원 파일 열기
-    audio_file = open(filename, "rb")
+#    audio_file = open(filename, "rb")
     # whisper 모델을 활용해 텍스트 얻기
-    transcript = openai.Audio.transcribe("whisper-1", audio_file)
-    audio_file.close()
+#    transcript = openai.Audio.transcribe("whisper-1", audio_file)
+#    audio_file.close()
     # 파일 삭제
-    os.remove(filename)
-    return transcript["text"]
-
+#    os.remove(filename)
+#    return transcript["text"]
+    
 def ask_gpt(prompt, model) :
     response = openai.ChatCompletion.create(model=model, messages=prompt)
     system_message = response["choices"][0]["message"]
@@ -39,7 +39,7 @@ def ask_gpt(prompt, model) :
 def TTS(response) :
     # gTTS를 활용하여 음성 파일 생성
     filename = "output.mp3"
-    tts = gTTS(text=response, lang="ko")
+    tts = gTTS(text=response, lang="en")
     tts.save(filename)
 
     # 음원 파일 자동 재생
@@ -118,14 +118,17 @@ def main():
     with col1:
         # 왼쪽 컬럼
         st.subheader("질문하기")
+        question = st.text_input("마이크가 안돼요. 직접 입력하세요.")
+
         # 음성 녹음 아이콘 추가
-        audio = audiorecorder("클릭하여 녹음하기", "녹음 중...")
-        if len(audio) > 0:
+#        audio = audiorecorder("클릭하여 녹음하기", "녹음 중...")
+
+        if len(question) > 0 :
         #if len(audio) > 0 and not np.array_equal(audio, st.session_state["check_audio"]): # 녹음을 실행하면
             # 음성 재생
-            st.audio(audio.tobytes())
+#            st.audio(audio.tobytes())
             # 음원 파일에서 텍스트 추출
-            question = STT(audio)
+#            question = STT(audio)
             question = "dramatize " + question + ", and traslate them into Korean." ## 한줄추가한 부분
 
             # 채팅을 시각화하기 위해 질문 내용 저장
@@ -134,7 +137,7 @@ def main():
             # 질문 내용 저장
             st.session_state["messages"] = st.session_state["messages"] + [{"role":"user", "content": question}]
             # audio 버퍼를 확인하기 위해 오디오 정보 저장
-            st.session_state["check_audio"] = audio
+#            st.session_state["check_audio"] = audio
             flag_start = True
 
     with col2:
