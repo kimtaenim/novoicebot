@@ -119,8 +119,9 @@ def main():
         # 왼쪽 컬럼
         st.subheader("질문하기")
         # 음성 녹음 아이콘 추가
-        audio = audiorecorder("클릭하면 녹음", "지금 녹음...")
-        if len(audio) > 0 and not np.array_equal(audio, st.session_state["check_audio"]):
+        audio = audiorecorder("클릭하여 녹음하기", "녹음 중...")
+        if len(audio) > 0:
+        #if len(audio) > 0 and not np.array_equal(audio, st.session_state["check_audio"]): # 녹음을 실행하면
             # 음성 재생
             st.audio(audio.tobytes())
             # 음원 파일에서 텍스트 추출
